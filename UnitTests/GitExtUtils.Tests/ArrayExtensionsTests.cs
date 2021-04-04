@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using GitExtUtils;
+using GitUIPluginInterfaces;
 using NUnit.Framework;
 
 namespace GitCommandsTests
@@ -8,6 +9,34 @@ namespace GitCommandsTests
     [TestFixture]
     public sealed class ArrayExtensionsTests
     {
+        [Test]
+        public void Subsequence_throws_argument_out_of_range_exception_for_index_less_than_zero()
+        {
+            var nums = Enumerable.Range(0, 10).ToArray();
+            Assert.Throws<ArgumentOutOfRangeException>(() => nums.Subsequence(-1, 1));
+        }
+
+        [Test]
+        public void Subsequence_throws_argument_exception_for_index_greater_equal_than_length()
+        {
+            var nums = Enumerable.Range(0, 10).ToArray();
+            Assert.Throws<ArgumentException>(() => nums.Subsequence(nums.Length, 1));
+        }
+
+        [Test]
+        public void Subsequence_throws_overflow_exception_for_length_less_than_zero()
+        {
+            var nums = Enumerable.Range(0, 10).ToArray();
+            Assert.Throws<OverflowException>(() => nums.Subsequence(0, -1));
+        }
+
+        [Test]
+        public void Subsequence_throws_argument_exception_for_length_greater_than_array_length()
+        {
+            var nums = Enumerable.Range(0, 10).ToArray();
+            Assert.Throws<ArgumentException>(() => nums.Subsequence(0, nums.Length + 1));
+        }
+
         [Test]
         public void Subsequence()
         {
